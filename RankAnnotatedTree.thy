@@ -69,10 +69,13 @@ fun rank:: "'a::linorder \<Rightarrow> 'a rtree \<Rightarrow> nat" where
 "rank a \<langle>\<rangle> = 0" |
 "rank a \<langle>l, n, x, r\<rangle> = (if a > x then 1 + num_nodes l + rank a r
                        else rank a l)"
-value  "rank 6 \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle>"
 
+value  "rank 5 \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle>"
 
 definition "at_index i l x \<equiv> i < length l \<and> l!i=x"
+
+lemma num_nodes_inorder[simp]: "num_nodes t = length (inorder t)"
+  by (induction t) auto
 
 lemma inorder_index: "rbst t \<Longrightarrow> x \<in> set_rtree t \<Longrightarrow> at_index (rank x t) (inorder t) x"
   sorry
