@@ -38,14 +38,7 @@ lemma rins_set[simp]: "set_rtree (rins x t) = insert x (set_rtree t)"
   by (induction t arbitrary: x rule: set_rtree.induct) auto
 
 lemma num_nodes_rins[simp]: "x \<notin> set_rtree t \<Longrightarrow> rbst t \<Longrightarrow> num_nodes (rins x t) = 1 + num_nodes t"
-proof (induction t rule: rbst.induct)
-  case 1
-  then show ?case by simp
-next
-  case (2 l n x r)
-  then show ?case
-    by auto
-qed
+  by (induction t rule: rbst.induct) simp+
 
 lemma rins_invar[simp]: "x \<notin> set_rtree t \<Longrightarrow> rbst t \<Longrightarrow> rbst (rins x t)"
 proof (induction t rule: rbst.induct)
@@ -70,14 +63,34 @@ fun rank:: "'a::linorder \<Rightarrow> 'a rtree \<Rightarrow> nat" where
 "rank a \<langle>l, n, x, r\<rangle> = (if a > x then 1 + num_nodes l + rank a r
                        else rank a l)"
 
-value  "rank 5 \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle>"
+value  "rank 9 \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle>"
 
 definition "at_index i l x \<equiv> i < length l \<and> l!i=x"
 
 lemma num_nodes_inorder[simp]: "num_nodes t = length (inorder t)"
-  by (induction t) auto
+  by (induction t) simp+
 
-lemma inorder_index: "rbst t \<Longrightarrow> x \<in> set_rtree t \<Longrightarrow> at_index (rank x t) (inorder t) x"
-  sorry
+lemma inorder_index: "rbst t \<Longrightarrow> a \<in> set_rtree t \<Longrightarrow> at_index (rank a t) (inorder t) a"
+proof (induction t)
+  case Leaf
+  then show ?case by simp
+next
+  case (Node l n x r)
+  then show ?case sorry
+qed
+
+
+subsection \<open>Selection in a rank annotated tree\<close>
+
+fun sel:: "nat \<Rightarrow> 'a::linorder rtree \<Rightarrow>'a" where
+"sel _ \<langle>\<rangle> = undefined" |
+"sel i \<langle>l, n, x, r\<rangle> = (if i = n then x
+                      else if i < n then sel i l
+                      else sel (i - n - 1) r)"
+
+value  "sel 5 \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle>" 
+
+lemma select_correct: "rbst t \<Longrightarrow> i < length (inorder t) \<Longrightarrow> select i t = inorder t!i"
+
 
 end
