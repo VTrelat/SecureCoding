@@ -61,9 +61,9 @@ subsection \<open>Inorder traversal and getting rank\<close>
 
 fun inorder:: "'a rtree \<Rightarrow> 'a list" where
 "inorder \<langle>\<rangle> = []" |
-"inorder \<langle>l, _, x, r\<rangle> acc = inorder l  @ (x # inorder r)"
+"inorder \<langle>l, _, x, r\<rangle> = inorder l  @ (x # inorder r)"
 
-value  "inorder \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle> []"
+value  "inorder \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle>"
 
 fun rank:: "'a::linorder \<Rightarrow> 'a rtree \<Rightarrow> nat" where
 "rank a \<langle>\<rangle> = 0" |
