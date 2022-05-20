@@ -70,8 +70,7 @@ value  "inorder \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<
 
 fun rank:: "'a::linorder \<Rightarrow> 'a rtree \<Rightarrow> nat" where
 "rank a \<langle>\<rangle> = 0" |
-"rank a \<langle>l, n, x, r\<rangle> = (if a \<notin> set_rtree \<langle>l, n, x, r\<rangle> then undefined
-                       else if a = x then n
+"rank a \<langle>l, n, x, r\<rangle> = (if a = x then n
                        else if a > x then 1 + n + rank a r
                        else rank a l)"
 
