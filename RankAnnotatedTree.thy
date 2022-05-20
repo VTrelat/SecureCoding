@@ -138,7 +138,65 @@ fun sel:: "nat \<Rightarrow> 'a::linorder rtree \<Rightarrow>'a" where
 
 value  "sel 5 \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle>" 
 
-lemma select_correct: "rbst t \<Longrightarrow> i < length (inorder t) \<Longrightarrow> select i t = inorder t!i" sorry
+
+lemma sel_in_set_rtree:"\<And> i. sel i t = a \<Longrightarrow> a \<noteq> undefined \<Longrightarrow> a \<in> set_rtree t"
+proof(induction t)
+  case Leaf
+  then show ?case
+    by simp
+next
+  case (Node l n x r)
+  then show ?case
+  proof (cases "i = n")
+    case True
+    then show ?thesis
+      using Node.prems(1) by auto
+  next
+    case False
+    then show ?thesis
+    proof (cases "i<n")
+      case True
+      hence "sel i \<langle>l, n, x, r\<rangle> = sel i l"
+        by simp
+      then show ?thesis using Node.IH
+        using Node.prems(1) Node.prems(2) by auto
+    next
+      case False
+      hence "sel i \<langle>l, n, x, r\<rangle> = sel (i-n-1) r" using \<open>i\<noteq>n\<close>
+        by simp
+      then show ?thesis using \<open>i\<noteq>n\<close>
+        using Node.IH(2) Node.prems(1) Node.prems(2) by auto
+    qed
+  qed
+qed
+
+lemma select_correct: "rbst t \<Longrightarrow> i < length (inorder t) \<Longrightarrow> sel i t = inorder t!i"
+proof (induction t)
+  case Leaf
+  then show ?case
+    by simp
+next
+  case (Node l n x r)
+  then show ?case
+  proof (cases "i = n")
+    case True
+    then show ?thesis
+      using Node.prems(1) by auto
+  next
+    case False
+    then show ?thesis
+    proof (cases "i < n")
+      case True
+      then show ?thesis
+        by (metis False Node.IH(1) Node.prems(1) inorder.simps(2) nth_append num_nodes_inorder rbst.simps(2) sel.simps(2))
+    next
+      case False
+      then have "sel i \<langle>l, n, x, r\<rangle> = sel (i - n - 1) r" using \<open>i \<noteq> n\<close>
+        by simp
+      then show ?thesis using False \<open>i \<noteq> n\<close> apply (auto split: if_splits) sorry
+    qed
+  qed
+qed
 
 
 end
