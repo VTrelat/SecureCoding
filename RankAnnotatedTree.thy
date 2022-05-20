@@ -171,7 +171,7 @@ next
 qed
 
 lemma select_correct: "rbst t \<Longrightarrow> i < length (inorder t) \<Longrightarrow> sel i t = inorder t!i"
-proof (induction t)
+proof (induction t arbitrary: i)
   case Leaf
   then show ?case
     by simp
@@ -193,7 +193,12 @@ next
       case False
       then have "sel i \<langle>l, n, x, r\<rangle> = sel (i - n - 1) r" using \<open>i \<noteq> n\<close>
         by simp
-      then show ?thesis using False \<open>i \<noteq> n\<close> apply (auto split: if_splits) sorry
+      moreover have "i - n - 1 < length (inorder r)" using False \<open>i \<noteq> n\<close>
+        using Node.prems(1) Node.prems(2) by force
+      moreover have "sel (i - n - 1) r = inorder r ! (i - n - 1)" using False \<open>i \<noteq> n\<close> Node.IH
+        using Node.prems(1) calculation(2) rbst.simps(2) by blast
+      then show ?thesis using False \<open>i \<noteq> n\<close>
+        by (metis Node.prems(1) antisym_conv3 calculation(1) inorder.simps(2) nth_Cons_pos nth_append num_nodes_inorder rbst.simps(2) zero_less_diff)
     qed
   qed
 qed
