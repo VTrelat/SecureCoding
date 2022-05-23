@@ -193,7 +193,7 @@
 
 \begin{frame}
   \onslide<1->{
-    \begin{isabelle}
+    \begin{isabelle}[Selection]
       \isa{\small
         \fun{} sel:: "nat $\Rightarrow$ \generic{a}::linorder rtree $\Rightarrow$ \generic{a}" \where{}\\
         $~~~$"\blue{sel} \_ $\langle \rangle$ = undefined" $|$\\
@@ -206,15 +206,49 @@
   }
   \onslide<2->{
     \begin{columns}
-      \begin{column}{0.5\textwidth}
-        \isa{\small{sel 4 \blue{t}}}\\
-        \isa{\small{inorder \blue{t} = $\underset{\isa{\green{l}}}{\underbrace{\isa{[3, 4, 5,}}}$ 6, $\underset{\isa{\green{r}}}{\underbrace{\isa{{\color{red}7}, 8, 9]}}}$}}
+      \begin{column}{0.55\textwidth}
+        \isa{{sel 4 \blue{t}}}
+        \BlankLine
+        \isa{{inorder \blue{t} = $\underset{\text{offset:}\isa{\green{ n} + 1}}{\underbrace{\underset{\isa{\green{l}}}{\underbrace{\isa{[3, 4, 5,}}} \isa{ 6,}}}$ $\underset{\isa{\green{r}}}{\underbrace{\isa{{\color{red}7}, 8, 9]}}}$}}
       \end{column}
-      \begin{column}{0.5\textwidth}
+      \begin{column}{0.45\textwidth}
           \ctikzfig{rbst}
       \end{column}
       \end{columns}
   }
+\end{frame}
+
+\begin{frame}
+  \begin{isabelle}
+    \isa{
+      \lm{} select\_correct:\\ $~~~$"rbst \blue{t} $\Longrightarrow$ \blue{i} < length (inorder \blue{t}) $\Longrightarrow$ sel \blue{i} \blue{t} = inorder \blue{t}!\blue{i}"
+    }
+  \end{isabelle}
+  \vfill
+  Idea of the proof:
+  \begin{itemize}
+    \item By induction on \isa{\blue{t}} with \isa{\blue{i}} arbitrary
+    \item Cases are split w.r.t. the body of the function \isa{sel}
+    \item In the third case, we show:
+      \begin{itemize}
+        \item[$\circ$] \isa{sel \blue{i} $\langle$\green{l}, \green{n}, \green{x}, \green{r}$\rangle$ = sel (\blue{i} - \green{n} - 1) \green{r}}
+        \item[$\circ$] \isa{sel (\blue{i} - \green{n} - 1) \green{r} = inorder \green{r}!(\blue{i} - \green{n} - 1)}
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{isabelle}
+    \isa{
+      \lm{} rank\_sel\_id:\\ $~~~$"rbst \blue{t} $\Longrightarrow$ \blue{i} < length (inorder \blue{t}) $\Longrightarrow$ rank (sel \blue{i} \blue{t}) \blue{t} = \blue{i}"
+    }
+  \end{isabelle}
+  \vfill
+  Idea of the proof:
+  \begin{itemize}
+    \item By induction on \isa{\blue{t}} with \isa{\blue{i}} arbitrary
+    \item Trivialized with lemma \texttt{select\_correct}
+  \end{itemize}
 \end{frame}
 
 \end{document}
