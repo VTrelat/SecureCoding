@@ -215,46 +215,29 @@ next
     by fastforce+
 qed
 
-fun rfold :: "('a \<Rightarrow> 'b \<Rightarrow> 'b) \<Rightarrow> 'a rtree \<Rightarrow> 'b \<Rightarrow> 'b" where
-"rfold f \<langle>\<rangle> acc = acc" |
-"rfold f \<langle>l, _, a, r\<rangle> acc = rfold f r (f a (rfold f l acc))"
-
-fun to_list :: "'a rtree \<Rightarrow> 'a list" where
-"to_list \<langle>\<rangle> = []" |
-"to_list \<langle>l, _, a, r\<rangle> = a # to_list l @ to_list r"
-
-definition rmerge :: "'a::linorder rtree \<Rightarrow> 'a rtree \<Rightarrow> 'a rtree" where
-"rmerge t u = fold rins (to_list u) t"
+fun rmerge :: "'a::linorder rtree \<Rightarrow> 'a rtree \<Rightarrow> 'a rtree" where
+"rmerge t \<langle>\<rangle> = t" |
+"rmerge t \<langle>l, _, a, r\<rangle> = rins a (rmerge (rmerge t r) l)"
 
 lemma rmerge_rbst: "rbst u \<Longrightarrow> rbst t \<Longrightarrow> rbst (rmerge t u)"
-  unfolding rmerge_def proof (induction u arbitrary: t)
-  case Leaf
-  then show ?case by simp
-next
-  case (Node u1 x2 x3 u2)
-  then show ?case apply auto
-    by (meson rins_invar rins_invar_in)
-qed
-
-
-lemma to_list_set: "set_rtree t = set (to_list t)"
-proof (induction t)
-  case Leaf
-  then show ?case by simp
-next
-  case (Node t1 x2 x3 t2)
-  then show ?case by auto
-qed
+  proof (induction u arbitrary: t rule: rmerge.induct)
+    case (1 t)
+    then show ?case by simp
+  next
+    case (2 t l n a r)
+    then show ?case using 2 apply auto
+      by (meson rins_invar rins_invar_in) 
+  qed
 
 lemma rmerge_set: "rbst u \<Longrightarrow> rbst t \<Longrightarrow> set_rtree (rmerge t u) = set_rtree t \<union> set_rtree u"
-  unfolding rmerge_def proof (induction u arbitrary: t)
-  case Leaf
-  then show ?case by simp
-next
-  case (Node l n a r)
-  have "set_rtree (fold rins (to_list \<langle>l, n, a, r\<rangle>) t) = set_rtree (rins a (fold rins (to_list l @ to_list r) t))" apply auto sledgehammer 
-  then show ?case using set_rtree_inorder_in rins_set to_list_set Node.IH apply auto sledgehammer
-qed
+  proof (induction u arbitrary: t rule: rmerge.induct)
+    case (1 t)
+    then show ?case by simp
+  next
+    case (2 t l uu a r)
+    then show ?case by (auto simp: rmerge_rbst)
+  qed
+  
 
 fun rdel :: "'a::linorder \<Rightarrow> 'a rtree \<Rightarrow> 'a rtree" where
 "rdel x \<langle>\<rangle> = \<langle>\<rangle>" |
