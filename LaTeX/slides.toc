@@ -1,4 +1,5 @@
 \beamer@sectionintoc {1}{Introduction}{3}{0}{1}
 \beamer@sectionintoc {2}{Proofs}{6}{0}{2}
-\beamer@subsectionintoc {2}{1}{Useful functions}{6}{0}{2}
-\beamer@subsectionintoc {2}{2}{First lemmas}{9}{0}{2}
+\beamer@subsectionintoc {2}{1}{Functions}{6}{0}{2}
+\beamer@subsectionintoc {2}{2}{First lemmas}{8}{0}{2}
+\beamer@sectionintoc {3}{Inorder traversal and getting rank}{13}{0}{3}

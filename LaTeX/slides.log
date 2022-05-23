@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.7.26)  23 MAY 2022 11:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.7.26)  23 MAY 2022 15:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -956,7 +956,7 @@ Dictionary: translator-theorem-dictionary, Language: English
 )
 \c@lstlisting=\count358
  (/Users/vincent/Documents/MinesNancy/2A/Secure Coding/SecureCoding/LaTeX/slides.nav)
-<img/logoartem.png, id=31, 481.8pt x 317.185pt>
+<img/logoartem.png, id=35, 481.8pt x 317.185pt>
 File: img/logoartem.png Graphic file (type png)
 <use img/logoartem.png>
 Package pdftex.def Info: img/logoartem.png  used on input line 78.
@@ -991,22 +991,31 @@ File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 
 ] (/Users/vincent/Documents/MinesNancy/2A/Secure Coding/SecureCoding/LaTeX/./figures/rbst.tikz) [5
 
-]
-LaTeX Font Info:    Trying to load font information for OMS+cmtt on input line 136.
-LaTeX Font Info:    No file OMScmtt.fd. on input line 136.
-
-
-LaTeX Font Warning: Font shape `OMS/cmtt/m/n' undefined
-(Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbraceleft' on input line 136.
-
-[6
+] [6
 
 ] [7
 
 ] [8
 
 ] [9
+
+] [10
+
+] [11
+
+] [12
+
+] [13
+
+] [14
+
+] [15
+
+] [16
+
+] (/Users/vincent/Documents/MinesNancy/2A/Secure Coding/SecureCoding/LaTeX/./figures/rbst.tikz) [17
+
+] (/Users/vincent/Documents/MinesNancy/2A/Secure Coding/SecureCoding/LaTeX/./figures/rbst.tikz) [18
 
 ]
 \tf@nav=\write6
@@ -1019,25 +1028,22 @@ LaTeX Font Warning: Font shape `OMS/cmtt/m/n' undefined
 \openout8 = `slides.snm'.
 
  (/Users/vincent/Documents/MinesNancy/2A/Secure Coding/SecureCoding/LaTeX/slides.aux)
-
-LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
 Package rerunfilecheck Info: File `slides.out' has not changed.
-(rerunfilecheck)             Checksum: 14E2FA4341EDAF8AC1510C806F4C939D;436.
+(rerunfilecheck)             Checksum: 7B57A270BB95D5ECAC0336D41D36BD06;623.
  ) 
 Here is how much of TeX's memory you used:
- 29017 strings out of 478994
- 577411 string characters out of 5858184
- 915485 words of memory out of 5000000
- 45833 multiletter control sequences out of 15000+600000
- 413834 words of font info for 68 fonts, out of 8000000 for 9000
+ 29106 strings out of 478994
+ 580289 string characters out of 5858184
+ 926581 words of memory out of 5000000
+ 45901 multiletter control sequences out of 15000+600000
+ 414002 words of font info for 69 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 131i,16n,132p,505b,852s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb>
-Output written on "/Users/vincent/Documents/MinesNancy/2A/Secure Coding/SecureCoding/LaTeX/slides.pdf" (9 pages, 167866 bytes).
+ 131i,19n,132p,505b,1147s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb>
+Output written on "/Users/vincent/Documents/MinesNancy/2A/Secure Coding/SecureCoding/LaTeX/slides.pdf" (18 pages, 227740 bytes).
 PDF statistics:
- 529 PDF objects out of 1000 (max. 8388607)
- 393 compressed objects within 4 object streams
- 23 named destinations out of 1000 (max. 500000)
- 614 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 978 PDF objects out of 1000 (max. 8388607)
+ 730 compressed objects within 8 object streams
+ 42 named destinations out of 1000 (max. 500000)
+ 1132 words of extra memory for PDF output out of 10000 (max. 10000000)
 

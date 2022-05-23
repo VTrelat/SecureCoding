@@ -103,7 +103,7 @@
 \end{frame}
 
 \section{Proofs}
-\subsection{Useful functions}
+\subsection{Functions}
 \begin{frame}
   \onslide<1->{
     \begin{isabelle}
@@ -115,16 +115,7 @@
     \end{isabelle}
   }
   \onslide<2->{
-    \begin{isabelle}
-      \isa{\small
-        \fun{} set\_rtree :: "\generic{a} rtree $\Rightarrow$ \generic{a} set" \where{}\\
-        $~~~$"\blue{set\_rtree} $\langle \rangle$ = \{\}" $|$\\
-        $~~~$"\blue{set\_rtree} $\langle$ \green{l}, \green{n}, \green{x}, \green{r}$\rangle$ = \blue{set\_rtree} \green{l} $\cup$ \blue{set\_rtree} \green{r} $\cup$ \{\green{x}\}"
-      }
-    \end{isabelle}
-  }
-  \onslide<3->{
-    \frametitle{Useful functions}
+    \frametitle{First functions}
     \begin{isabelle}
       \isa{\small
       \fun{} rbst :: "(\generic{a}::linorder) rtree $\Rightarrow$ bool" \where{}\\
@@ -137,7 +128,93 @@
 
 \subsection{First lemmas}
 \begin{frame}
-  
+  \begin{center}
+    Some useful lemmas
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \onslide<1->{
+    \begin{isabelle}
+      \isa{\small
+        \lm{} set\_rtree\_rbst:\\
+        $~~~$"rbst $\langle$\blue{l}, \blue{n}, \blue{x}, \blue{r}$\rangle$ $\Rightarrow$ \blue{a} $\in$ set\_rtree $\langle$ \blue{l}, \blue{n}, \blue{x}, \blue{r} $\rangle$ $\Rightarrow$ \blue{a} $<$ \blue{x} $\Rightarrow$ \\ $~~~$\blue{a} $\in$ set\_rtree \blue{l}"
+      }
+    \end{isabelle}
+  }
+  \onslide<2->{
+    \begin{isabelle}
+      \isa{\small
+        \lm{} rins\_set: "set\_rtree (rins \blue{x} \blue{t}) = insert \blue{x} (set\_rtree \blue{t})"
+      }
+    \end{isabelle}
+  }
+  \onslide<3->{
+    \begin{isabelle}
+      \isa{\small
+        \lm{} num\_nodes\_rins\_notin:\\
+        $~~~$"\blue{x} $\notin$ set\_rtree \blue{t} $\Rightarrow$ rbst \blue{t} $\Rightarrow$ num\_nodes (rins \blue{x t}) = 1 + num\_nodes \blue{t}"
+      }
+    \end{isabelle}
+  }
+  \onslide<4->{
+    \begin{isabelle}
+      \isa{
+        \lm{} rins\_invar: "\blue{x} $\notin$ set\_rtree \blue{t} $\Rightarrow$ rbst \blue{t} $\Rightarrow$ rbst (rins \blue{x t})"
+      }
+    \end{isabelle}
+  }
+\end{frame}
+
+\section{Inorder traversal and getting rank}
+\begin{frame}
+  \begin{center}
+    Inorder traversal and getting rank
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+    \item<+-> Tree traversal : \texttt{inorder} function (in-order DFS)
+    \item<+-> Getting rank : \texttt{rank} function w.r.t. the structure of the rank annotated tree\\
+    \begin{isabelle}
+      \isa{\small
+      \fun{} rank:: "\generic{a}::linorder $\Rightarrow$ \generic{a} rtree $\Rightarrow$ nat" \where{}\\
+      $~~~$"\blue{rank} \green{a} $\langle \rangle$ = 0" $|$\\
+      $~~~$"\blue{rank} \green{a} $\langle$ \green{l}, \green{n}, \green{x}, \green{r}$\rangle$ = \\
+      $~~~~~~$({\color{isa_blue}if} \green{a} = \green{x} {\color{isa_blue}then} \green{n}\\
+      $~~~~~~${\color{isa_blue}else if} \green{a} > \green{x} {\color{isa_blue}then} 1 + \green{n} + rank \green{a} \green{r}\\
+      $~~~~~~${\color{isa_blue}else} rank \green{a} \green{l})"
+      }
+    \end{isabelle}
+    \item<+-> Selection : \texttt{select} function
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \onslide<1->{
+    \begin{isabelle}
+      \isa{\small
+        \fun{} sel:: "nat $\Rightarrow$ \generic{a}::linorder rtree $\Rightarrow$ \generic{a}" \where{}\\
+        $~~~$"\blue{sel} \_ $\langle \rangle$ = undefined" $|$\\
+        $~~~$"\blue{sel} \green{i} $\langle$\green{l}, \green{n}, \green{x}, \green{r}$\rangle$ =\\
+        $~~~~~~$({\color{isa_blue}if} \green{i} = \green{n} {\color{isa_blue}then} \green{x}\\
+        $~~~~~~${\color{isa_blue}else if} \green{i} < \green{n} {\color{isa_blue}then} \blue{sel} \green{i} \green{l}\\
+        $~~~~~~${\color{isa_blue}else} \blue{sel} (\green{i} - \green{n} - 1) \green{r})"
+      }
+    \end{isabelle}
+  }
+  \onslide<2->{
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \isa{\small{sel 4 \blue{t}}}\\
+        \isa{\small{inorder \blue{t} = $\underset{\isa{\green{l}}}{\underbrace{\isa{[3, 4, 5,}}}$ 6, $\underset{\isa{\green{r}}}{\underbrace{\isa{{\color{red}7}, 8, 9]}}}$}}
+      \end{column}
+      \begin{column}{0.5\textwidth}
+          \ctikzfig{rbst}
+      \end{column}
+      \end{columns}
+  }
 \end{frame}
 
 \end{document}

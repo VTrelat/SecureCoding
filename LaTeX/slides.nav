@@ -11,15 +11,26 @@
 \headcommand {\beamer@subsectionpages {3}{5}}
 \headcommand {\sectionentry {2}{Proofs}{6}{Proofs}{0}}
 \headcommand {\beamer@subsectionpages {6}{5}}
-\headcommand {\beamer@subsectionentry {0}{2}{1}{6}{Useful functions}}
-\headcommand {\slideentry {2}{1}{1}{6/8}{Useful functions}{0}}
-\headcommand {\beamer@framepages {6}{8}}
-\headcommand {\beamer@subsectionpages {6}{8}}
-\headcommand {\beamer@subsectionentry {0}{2}{2}{9}{First lemmas}}
-\headcommand {\slideentry {2}{2}{1}{9/9}{First lemmas}{0}}
-\headcommand {\beamer@framepages {9}{9}}
-\headcommand {\beamer@partpages {1}{9}}
-\headcommand {\beamer@subsectionpages {9}{9}}
-\headcommand {\beamer@sectionpages {6}{9}}
-\headcommand {\beamer@documentpages {9}}
-\headcommand {\gdef \inserttotalframenumber {5}}
+\headcommand {\beamer@subsectionentry {0}{2}{1}{6}{Functions}}
+\headcommand {\slideentry {2}{1}{1}{6/7}{Functions}{0}}
+\headcommand {\beamer@framepages {6}{7}}
+\headcommand {\beamer@subsectionpages {6}{7}}
+\headcommand {\beamer@subsectionentry {0}{2}{2}{8}{First lemmas}}
+\headcommand {\slideentry {2}{2}{1}{8/8}{First lemmas}{0}}
+\headcommand {\beamer@framepages {8}{8}}
+\headcommand {\slideentry {2}{2}{2}{9/12}{First lemmas}{0}}
+\headcommand {\beamer@framepages {9}{12}}
+\headcommand {\beamer@sectionpages {6}{12}}
+\headcommand {\beamer@subsectionpages {8}{12}}
+\headcommand {\sectionentry {3}{Inorder traversal and getting rank}{13}{Inorder traversal and getting rank}{0}}
+\headcommand {\slideentry {3}{0}{1}{13/13}{}{0}}
+\headcommand {\beamer@framepages {13}{13}}
+\headcommand {\slideentry {3}{0}{2}{14/16}{}{0}}
+\headcommand {\beamer@framepages {14}{16}}
+\headcommand {\slideentry {3}{0}{3}{17/18}{}{0}}
+\headcommand {\beamer@framepages {17}{18}}
+\headcommand {\beamer@partpages {1}{18}}
+\headcommand {\beamer@subsectionpages {13}{18}}
+\headcommand {\beamer@sectionpages {13}{18}}
+\headcommand {\beamer@documentpages {18}}
+\headcommand {\gdef \inserttotalframenumber {9}}
