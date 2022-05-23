@@ -200,7 +200,7 @@ next
   qed
 qed
 
-lemma rank_sel_id: "rbst t \<Longrightarrow> i < length(inorder t) \<Longrightarrow> rank (sel i t) t = i"
+lemma rank_sel_id: "rbst t \<Longrightarrow> i < length (inorder t) \<Longrightarrow> rank (sel i t) t = i"
 proof (induction t arbitrary: i)
   case Leaf
   then show ?case by simp
@@ -208,10 +208,8 @@ next
   case (Node l n x r)
   then show ?case using select_correct
     apply auto
-    apply (simp add: order_less_not_sym select_correct)
-    by force+
+       apply (simp add: order_less_not_sym select_correct)
+    by fastforce+
 qed
-
-
 
 end
