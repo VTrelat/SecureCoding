@@ -1,0 +1,143 @@
+\documentclass[10pt]{beamer}
+\usepackage{graphicx}
+\usepackage{amsmath, amsthm, amsfonts, amssymb, mathrsfs}
+\usepackage{textcomp} % straigth apos
+\usepackage{tikz}
+\usepackage{verbatim}
+\usepackage{tikzit}
+\usepackage{listings}
+\usepackage[ruled,vlined, linesnumbered]{algorithm2e}
+\usepackage{algorithmic,float}
+
+\input{style.tikzstyles}
+
+% Graph notations
+\def\NN{$\mathcal{N}~$}
+\def\GG{$\mathcal{G}~$}
+\def\VV{$\mathcal{V}~$}
+\def\EE{$\mathcal{E}~$}
+
+% Colors definition
+\definecolor{isa_red}{RGB}{255, 58, 71}
+\definecolor{isa_blue}{RGB}{0, 103, 158}
+\definecolor{isa_green}{RGB}{0, 157, 97}
+\definecolor{isa_dark_green}{RGB}{0,131, 0}
+\definecolor{isa_purple}{RGB}{174, 5, 238}
+\definecolor{isa_dark_blue}{RGB}{26, 0, 253}
+
+% Isabelle keywords
+\newcommand{\apply}{{\color{isa_red}{apply}}}
+\newcommand{\done}{{\color{isa_red}{done}}}
+\newcommand{\datatype}{{\color{isa_blue}{datatype}}}
+\newcommand{\inductive}{{\color{isa_blue}{inductive}}}
+\newcommand{\abbreviation}{{\color{isa_blue}{abbreviation}}}
+\newcommand{\thm}{{\color{isa_blue}{theorem}}}
+\newcommand{\lm}{{\color{isa_blue}{lemma}}}
+\newcommand{\fun}{{\color{isa_blue}{fun}}}
+\renewcommand{\locale}{{\color{isa_blue}{locale}}}
+\newcommand{\where}{{\color{isa_green}{where}}}
+\renewcommand{\and}{{\color{isa_green}{and}}}
+\newcommand{\fixes}{{\color{isa_green}{fixes}}}
+\newcommand{\assumes}{{\color{isa_green}{assumes}}}
+\newcommand{\shows}{{\color{isa_green}{shows}}}
+\newcommand{\generic}[1]{{\color{isa_purple}{\textquotesingle#1}}}
+\newcommand{\isa}[1]{\texttt{#1}}
+\newcommand{\blue}[1]{{\color{isa_dark_blue}{#1}}}
+\newcommand{\green}[1]{{\color{isa_dark_green}{#1}}}
+
+\theoremstyle{definition}
+\newtheorem*{isabelle}{}
+
+\setbeamercovered{transparent}
+
+\setbeamertemplate{theorems}[numbered]
+\setbeamertemplate{lemma}[numbered]
+\newtheorem{remark}{Remark}
+
+\usetheme{Madrid}
+\useoutertheme{tree} % Alternatively: miniframes, infolines, split
+\useinnertheme{circles}
+
+\definecolor{lightbrown}{RGB}{220, 147, 91}
+
+\usecolortheme[named=lightbrown]{structure}
+
+\title[Secure Coding]{Rank Annotated Trees}
+\date{\today}
+\author[T. Peev, V. Trélat]{Todor Peev, Vincent Trélat}
+\institute[Mines Nancy]{\normalsize{École Nationale Supérieure des Mines de Nancy\\Département Informatique}}
+
+\begin{document}
+
+\begin{frame}
+  \begin{figure}[t]
+    \centering
+    \includegraphics[height=30pt]{img/logoartem.png}
+  \end{figure}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \tableofcontents
+\end{frame}
+
+\section{Introduction}
+
+\begin{frame}
+  \frametitle{Definition}
+  \onslide<1->{
+    \ctikzfig{rbst}
+  }
+  \onslide<2->{
+    \begin{isabelle}[Type definition]
+      \isa{\small
+      \datatype{} \generic{a} rtree = Leaf $|$ Node "\generic{a} rtree" nat \generic{a} "\generic{a} rtree"
+      }
+    \end{isabelle}
+  }
+  \onslide<3->{
+    \begin{example}
+      $\langle \langle \langle \langle \rangle, 0, 3, \langle \rangle \rangle, 1, 4, \langle \rangle \rangle, 3, 6::\text{\texttt{nat}},  \langle \langle \langle \rangle, 0, 7, \langle \rangle \rangle, 1, 8, \langle \langle \rangle, 0, 9, \langle \rangle \rangle \rangle \rangle$
+    \end{example}
+  }
+\end{frame}
+
+\section{Proofs}
+\subsection{Useful functions}
+\begin{frame}
+  \onslide<1->{
+    \begin{isabelle}
+      \isa{\small
+        \fun{} num\_nodes :: "\generic{a} rtree $\Rightarrow$ nat" \where{}\\
+        $~~~$"\blue{num\_nodes} $\langle \rangle$ = 0" $|$\\
+        $~~~$"\blue{num\_nodes} $\langle$ \green{l}, \_, \_, \green{r}$\rangle$ = 1 + \blue{num\_nodes} \green{l} + \blue{num\_nodes} \green{r}"
+      }
+    \end{isabelle}
+  }
+  \onslide<2->{
+    \begin{isabelle}
+      \isa{\small
+        \fun{} set\_rtree :: "\generic{a} rtree $\Rightarrow$ \generic{a} set" \where{}\\
+        $~~~$"\blue{set\_rtree} $\langle \rangle$ = \{\}" $|$\\
+        $~~~$"\blue{set\_rtree} $\langle$ \green{l}, \green{n}, \green{x}, \green{r}$\rangle$ = \blue{set\_rtree} \green{l} $\cup$ \blue{set\_rtree} \green{r} $\cup$ \{\green{x}\}"
+      }
+    \end{isabelle}
+  }
+  \onslide<3->{
+    \frametitle{Useful functions}
+    \begin{isabelle}
+      \isa{\small
+      \fun{} rbst :: "(\generic{a}::linorder) rtree $\Rightarrow$ bool" \where{}\\
+      $~~~$"\blue{rbst} $\langle \rangle$ = True" $|$\\
+      $~~~$"\blue{rbst} $\langle$ \green{l}, \green{n}, \green{x}, \green{x}$\rangle$ = (($\forall$\green{a} $\in$ set\_rtree \green{l}. \green{a} $<$ \green{x}) $\wedge$ \\ $~~~~~~$($\forall$\green{a} $\in$ set\_rtree \green{r}. \green{x} $<$ \green{a}) $\wedge$ \\$~~~~~~$\blue{rbst} \green{l} $\wedge$ \\ $~~~~~~$\blue{rbst} \green{r} $\wedge$ \\ $~~~~~~$\green{n} = num\_nodes \green{l})"
+      }
+    \end{isabelle}
+  }
+\end{frame}
+
+\subsection{First lemmas}
+\begin{frame}
+  
+\end{frame}
+
+\end{document}
