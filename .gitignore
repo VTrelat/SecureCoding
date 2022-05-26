@@ -1,6 +1,16 @@
 *.thy~
 .DS_Store
 
+*.toc
+*.gz
+*.snm
+*.out
+*.nav
+*.log
+*.fls
+*.fdb_latexmk
+
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof

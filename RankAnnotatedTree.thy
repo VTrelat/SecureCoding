@@ -212,4 +212,74 @@ next
     by fastforce+
 qed
 
+lemma set_rtree_set_inorder_eq[simp]: "rbst t \<Longrightarrow> set_rtree t = set(inorder t)"
+  by auto
+
+lemma card_set_rtree[simp]: "rbst t \<Longrightarrow> num_nodes t = card (set_rtree t)"
+proof (induction t rule:rtree.induct)
+  case Leaf
+  then show ?case by simp
+next
+  case (Node l n a r)
+  have a_not_in:"a \<notin> set_rtree l \<and> a \<notin> set_rtree r"
+    by (metis Node.prems not_less_iff_gr_or_eq rbst.simps(2))
+  then show ?case using card_def Node.IH a_not_in apply auto
+    using Node.prems card_Un_disjoint by fastforce
+qed
+
+
+
+fun rmerge :: "'a::linorder rtree \<Rightarrow> 'a rtree \<Rightarrow> 'a rtree" where
+"rmerge t \<langle>\<rangle> = t" |
+"rmerge t \<langle>l, _, a, r\<rangle> = rins a (rmerge (rmerge t r) l)"
+
+lemma rmerge_inv[simp]: "rbst u \<Longrightarrow> rbst t \<Longrightarrow> rbst (rmerge t u)"
+  proof (induction u arbitrary: t rule: rmerge.induct)
+    case (1 t)
+    then show ?case by simp
+  next
+    case (2 t l n a r)
+    then show ?case using 2 apply auto
+      by (meson rins_invar rins_invar_in) 
+  qed
+
+lemma rmerge_set[simp]: "rbst u \<Longrightarrow> rbst t \<Longrightarrow> set_rtree (rmerge t u) = set_rtree t \<union> set_rtree u"
+  by (induction u arbitrary: t rule: rmerge.induct) auto
+
+lemma card_rmerge[simp]: 
+  assumes "rbst t" and "rbst u"
+  shows "card (set_rtree (rmerge t u)) = card (set_rtree t \<union> set_rtree u)"
+using assms proof (induction u arbitrary: t rule:rtree.induct)
+  case Leaf
+  then show ?case by simp
+next
+  case (Node l n x r)
+  then show ?case
+    by (cases "x \<in> set_rtree t")(metis Node.prems(1) Node.prems(2) rmerge_set)+
+qed
+
+fun rdel :: "'a::linorder \<Rightarrow> 'a rtree \<Rightarrow> 'a rtree" where
+"rdel x \<langle>\<rangle> = \<langle>\<rangle>" |
+"rdel x \<langle>l, n, a, r\<rangle> = (if x \<in> set_rtree \<langle>l, n, a, r\<rangle> then
+  (if x < a then \<langle>rdel x l, n-1, a, r\<rangle> else
+    (if x > a then \<langle>l, n, a, rdel x r\<rangle> else
+      rmerge l r))
+  else \<langle>l, n, a, r\<rangle>)"
+
+value  "rdel 5 \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle>" 
+value  "rdel 6 \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle>" 
+value  "rdel 10 \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle>
+  = \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle>" 
+
+
+lemma rdel_rbst: "rbst t \<Longrightarrow> rbst (rdel x t)"
+proof (induction t arbitrary: x)
+  case Leaf
+  then show ?case by simp
+next
+  case (Node l n a r)
+  then show ?case using Node.IH rmerge_rbst apply (auto simp: rmerge_rbst split: if_splits) sledgehammer
+qed
+
+
 end
