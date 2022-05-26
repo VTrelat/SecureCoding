@@ -215,6 +215,23 @@ next
     by fastforce+
 qed
 
+lemma set_rtree_set_inorder_eq[simp]: "rbst t \<Longrightarrow> set_rtree t = set(inorder t)"
+  by auto
+
+lemma card_set_rtree[simp]: "rbst t \<Longrightarrow> num_nodes t = card (set_rtree t)"
+proof (induction t rule:rtree.induct)
+  case Leaf
+  then show ?case by simp
+next
+  case (Node l n a r)
+  have a_not_in:"a \<notin> set_rtree l \<and> a \<notin> set_rtree r"
+    by (metis Node.prems not_less_iff_gr_or_eq rbst.simps(2))
+  then show ?case using card_def Node.IH a_not_in apply auto
+    using Node.prems card_Un_disjoint by fastforce
+qed
+
+
+
 fun rmerge :: "'a::linorder rtree \<Rightarrow> 'a rtree \<Rightarrow> 'a rtree" where
 "rmerge t \<langle>\<rangle> = t" |
 "rmerge t \<langle>l, _, a, r\<rangle> = rins a (rmerge (rmerge t r) l)"
