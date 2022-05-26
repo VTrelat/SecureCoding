@@ -263,9 +263,17 @@ qed
 
 fun rdel :: "'a::linorder \<Rightarrow> 'a rtree \<Rightarrow> 'a rtree" where
 "rdel x \<langle>\<rangle> = \<langle>\<rangle>" |
-"rdel x \<langle>l, n, a, r\<rangle> = (if x = a then rmerge r l
-  else (if x < a then (if x \<in> set_rtree l then \<langle>rdel x l, n-1, a, r\<rangle> else \<langle>l, n, a, r\<rangle>)
-    else \<langle>l, n, a, rdel x r\<rangle>))"
+"rdel x \<langle>l, n, a, r\<rangle> = (if x \<in> set_rtree \<langle>l, n, a, r\<rangle> then
+  (if x < a then \<langle>rdel x l, n-1, a, r\<rangle> else
+    (if x > a then \<langle>l, n, a, rdel x r\<rangle> else
+      rmerge l r))
+  else \<langle>l, n, a, r\<rangle>)"
+
+value  "rdel 5 \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle>" 
+value  "rdel 6 \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle>" 
+value  "rdel 10 \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle>
+  = \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle>" 
+
 
 lemma rdel_rbst: "rbst t \<Longrightarrow> rbst (rdel x t)"
 proof (induction t arbitrary: x)
