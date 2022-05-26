@@ -246,15 +246,20 @@ lemma rmerge_inv[simp]: "rbst u \<Longrightarrow> rbst t \<Longrightarrow> rbst 
       by (meson rins_invar rins_invar_in) 
   qed
 
-lemma rmerge_set: "rbst u \<Longrightarrow> rbst t \<Longrightarrow> set_rtree (rmerge t u) = set_rtree t \<union> set_rtree u"
-  proof (induction u arbitrary: t rule: rmerge.induct)
-    case (1 t)
-    then show ?case by simp
-  next
-    case (2 t l uu a r)
-    then show ?case by (auto simp: rmerge_rbst)
-  qed
-  
+lemma rmerge_set[simp]: "rbst u \<Longrightarrow> rbst t \<Longrightarrow> set_rtree (rmerge t u) = set_rtree t \<union> set_rtree u"
+  by (induction u arbitrary: t rule: rmerge.induct) auto
+
+lemma card_rmerge[simp]: 
+  assumes "rbst t" and "rbst u"
+  shows "card (set_rtree (rmerge t u)) = card (set_rtree t \<union> set_rtree u)"
+using assms proof (induction u arbitrary: t rule:rtree.induct)
+  case Leaf
+  then show ?case by simp
+next
+  case (Node l n x r)
+  then show ?case
+    by (cases "x \<in> set_rtree t")(metis Node.prems(1) Node.prems(2) rmerge_set)+
+qed
 
 fun rdel :: "'a::linorder \<Rightarrow> 'a rtree \<Rightarrow> 'a rtree" where
 "rdel x \<langle>\<rangle> = \<langle>\<rangle>" |
