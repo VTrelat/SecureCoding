@@ -236,7 +236,7 @@ fun rmerge :: "'a::linorder rtree \<Rightarrow> 'a rtree \<Rightarrow> 'a rtree"
 "rmerge t \<langle>\<rangle> = t" |
 "rmerge t \<langle>l, _, a, r\<rangle> = rins a (rmerge (rmerge t r) l)"
 
-lemma rmerge_rbst: "rbst u \<Longrightarrow> rbst t \<Longrightarrow> rbst (rmerge t u)"
+lemma rmerge_inv[simp]: "rbst u \<Longrightarrow> rbst t \<Longrightarrow> rbst (rmerge t u)"
   proof (induction u arbitrary: t rule: rmerge.induct)
     case (1 t)
     then show ?case by simp
