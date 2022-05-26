@@ -290,6 +290,49 @@ next
     by (metis Un_iff rmerge_set set_rtree_inorder_in)
 qed
 
+
+lemma rdel_inv: "rbst t \<Longrightarrow> rbst (rdel x t)"
+proof (induct t rule: rtree.induct)
+  case Leaf
+  then show ?case by simp
+next
+  case ind:(Node l n a r)
+  then show ?case
+  proof (cases "x \<in> set_rtree \<langle>l, n, a, r\<rangle>")
+    case in_tree:True
+    then show ?thesis
+    proof (cases "x = a")
+      case True
+      then show ?thesis using ind rmerge_inv by auto
+    next
+      case x_neq_a:False
+      then show ?thesis
+      proof (cases "x < a")
+        case True
+        have "rbst (rdel x l)" using ind by simp
+        moreover have "set_rtree (rdel x l) = set_rtree l - {x}"
+          by (meson ind.prems rbst.simps(2) rdel_set)
+        moreover have x_in_l: "x \<in> set_rtree l" using in_tree x_neq_a ind.prems True set_rtree_rbst
+          by blast
+        moreover have "card (set_rtree l - {x}) = n - 1"
+          by (metis card_Diff_singleton card_set_rtree ind.prems rbst.simps(2) x_in_l)
+        moreover have "length (inorder (rdel x l)) = n - 1" using ind rbst.simps x_in_l apply auto
+          by (metis One_nat_def calculation(4) card_set_rtree num_nodes_inorder rdel_set)
+        then show ?thesis using ind apply auto 
+            apply (metis Diff_iff rdel_set set_rtree_set_inorder_eq)
+          using order.asym apply blast
+          using True by blast
+      next
+        case x_geq_a: False
+        have x_in_r: "x \<in> set_rtree r" using ind in_tree x_neq_a x_geq_a by auto
+        then show ?thesis using ind in_tree x_in_r x_geq_a x_neq_a rbst.simps apply auto
+          by (metis Diff_iff rdel_set set_rtree_set_inorder_eq)
+      qed
+    qed
+  next
+    case False
+    then show ?thesis using ind by auto
+  qed
 qed
 
 
