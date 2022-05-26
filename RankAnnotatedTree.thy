@@ -274,6 +274,17 @@ value  "rdel 6 \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<r
 value  "rdel 10 \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle>
   = \<langle>\<langle>\<langle>\<langle>\<rangle>, 0, 3, \<langle>\<rangle>\<rangle> , 1, 4, \<langle>\<langle>\<rangle>, 0, 5, \<langle>\<rangle>\<rangle>\<rangle>, 3, 6::nat, \<langle>\<langle>\<langle>\<rangle>, 0, 7,\<langle>\<rangle>\<rangle>, 1, 8, \<langle>\<langle>\<rangle>, 0, 9,\<langle>\<rangle>\<rangle>\<rangle>\<rangle>" 
 
+lemma rdel_set1[simp]: "rbst t \<Longrightarrow> x \<notin> set_rtree (rdel x t)"
+proof (induct t rule: rdel.induct)
+  case (1 x)
+  then show ?case by simp
+next
+  case (2 x l n a r)
+  then show ?case apply auto
+      apply (meson not_less_iff_gr_or_eq set_rtree_inorder_in)
+     apply (meson order.asym set_rtree_inorder_in)
+    by (metis UnE order_less_irrefl rmerge_set set_rtree_inorder_in)
+qed
 
 lemma rdel_rbst: "rbst t \<Longrightarrow> rbst (rdel x t)"
 proof (induction t arbitrary: x)
