@@ -1,0 +1,19 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=white node] (0) at (0, 4) {{\color{red}3} $|$ 6};
+		\node [style=white node] (1) at (-3, 1) {{\color{red}1} $|$ 4};
+		\node [style=white node] (2) at (3, 1) {{\color{red}1} $|$ 8};
+		\node [style=white node] (3) at (-4.5, -2) {{\color{red}0} $|$ 3};
+		\node [style=white node] (4) at (-1.5, -2) {{\color{red}0} $|$ 5};
+		\node [style=white node] (5) at (1.5, -2) {{\color{red}0} $|$ 7};
+		\node [style=white node] (6) at (4.5, -2) {{\color{red}0} $|$ 9};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw (0) to (1);
+		\draw (0) to (2);
+		\draw (1) to (3);
+		\draw (1) to (4);
+		\draw (2) to (5);
+		\draw (2) to (6);
+	\end{pgfonlayer}
+\end{tikzpicture}
