@@ -286,13 +286,21 @@ next
     by (metis UnE order_less_irrefl rmerge_set set_rtree_inorder_in)
 qed
 
-lemma rdel_rbst: "rbst t \<Longrightarrow> rbst (rdel x t)"
-proof (induction t arbitrary: x)
+lemma rdel_set[simp]:"rbst t \<Longrightarrow> set_rtree (rdel x t) = (set_rtree t) - {x}"
+proof (induction t arbitrary: x rule:rtree.induct)
   case Leaf
   then show ?case by simp
 next
   case (Node l n a r)
-  then show ?case using Node.IH rmerge_rbst apply (auto simp: rmerge_rbst split: if_splits) sledgehammer
+  then show ?case apply auto
+    apply fastforce
+    apply fastforce
+       apply (metis Un_iff rmerge_set  set_rtree_inorder_in)
+    apply (metis Un_iff not_less_iff_gr_or_eq rmerge_set set_rtree_inorder_in)
+    apply (metis Un_iff rmerge_set set_rtree_inorder_in)
+    by (metis Un_iff rmerge_set set_rtree_inorder_in)
+qed
+
 qed
 
 
