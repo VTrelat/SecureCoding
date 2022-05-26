@@ -1,2 +1,11 @@
 
 *.thy~
+.DS_Store
+*.toc
+*.gz
+*.snm
+*.out
+*.nav
+*.log
+*.fls
+*.fdb_latexmk
